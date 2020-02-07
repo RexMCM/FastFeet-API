@@ -5,6 +5,9 @@
   "repository": "https://github.com/RexMCM/FastFeet-API.git",
   "author": "Matheus Cardoso de Medeiros <Matheus.Cardoso@ibm.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/server.js"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "crypto": "^1.0.1",
