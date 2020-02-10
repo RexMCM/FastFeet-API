@@ -27,6 +27,26 @@ class DeliveryManController {
     });
   }
 
+  async show(req, res) {
+    const allDeliveryMan = await deliveryMan.findAll();
+
+    res.json(allDeliveryMan);
+  }
+
+  async delete(req, res) {
+    const deliveryToBeDeleted = await deliveryMan.findOne({
+      where: { email: req.body.email },
+    });
+
+    if (!deliveryToBeDeleted) {
+      return res.status(404).json({ error: 'Delivery man not found' });
+    }
+
+    await deliveryToBeDeleted.destroy();
+
+    return res.json({ message: 'Deletion completed' });
+  }
+
   async update(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
