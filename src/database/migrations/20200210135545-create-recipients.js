@@ -7,15 +7,21 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      recipient_name: {
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      street: {
         type: Sequelize.STRING,
         allowNull: false,
       },
       number: {
         type: Sequelize.INTEGER,
-        allowNull: false,
       },
       complement: {
+        type: Sequelize.STRING,
+      },
+      city: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -23,12 +29,8 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      city: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       zip_code: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       created_at: {

@@ -4,73 +4,83 @@ import Recipient from '../models/recipient';
 class RecipientController {
   async store(req, res) {
     const schema = Yup.object().shape({
-      recipient_name: Yup.string().required(),
-      number: Yup.integer().required(),
-      complement: Yup.integer().required(),
-      state: Yup.string().required(),
+      name: Yup.string().required(),
+      street: Yup.string().required(),
+      number: Yup.number().required(),
+      complement: Yup.string(),
       city: Yup.string().required(),
-      zip_code: Yup.integer().required(),
+      state: Yup.string().required(),
+      zip_code: Yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation failed' });
+      return res.status(400).json({ error: 'Validation has been failed' });
     }
 
     const {
       id,
-      recipient_name,
+      name,
+      street,
       number,
       complement,
-      state,
       city,
+      state,
       zip_code,
-    } = Recipient.create(req.body);
+    } = await Recipient.create(req.body);
 
     return res.json({
       id,
-      recipient_name,
+      name,
+      street,
       number,
       complement,
-      state,
       city,
+      state,
       zip_code,
     });
   }
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      recipient_name: Yup.string().required(),
-      number: Yup.integer().required(),
-      complement: Yup.string().required(),
-      state: Yup.string().required(),
+      name: Yup.string().required(),
+      street: Yup.string().required(),
+      number: Yup.number(),
+      complement: Yup.string(),
       city: Yup.string().required(),
-      zip_code: Yup.integer().required(),
+      state: Yup.string().required(),
+      zip_code: Yup.string().required(),
     });
+
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation failed' });
+      return res.status(400).json({ error: 'Validations fails' });
     }
+
     const recipient = await Recipient.findByPk(req.params.id);
 
-    await recipient.update(req.body);
+    if (!recipient) {
+      return res.status(404).json({ error: 'Recipient not found' });
+    }
 
     const {
       id,
-      recipient_name,
+      name,
+      street,
       number,
       complement,
-      state,
       city,
-      zip_code,
-    } = await Recipient.findByPk(req.params.id);
+      state,
+      zipcode,
+    } = await recipient.update(req.body);
 
     return res.json({
       id,
-      recipient_name,
+      name,
+      street,
       number,
       complement,
-      state,
       city,
-      zip_code,
+      state,
+      zipcode,
     });
   }
 }
