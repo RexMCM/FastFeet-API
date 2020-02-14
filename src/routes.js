@@ -36,4 +36,5 @@ routes.post('/api/order', OrdersController.store);
 
 // deliver routes
 routes.get('/api/deliver/:id/orders', deliverController.index);
+routes.put('/api/deliver/:id/orders', deliverController.update);
 export default routes;
