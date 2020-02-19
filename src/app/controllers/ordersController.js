@@ -2,7 +2,9 @@ import * as Yup from 'yup';
 import orders from '../models/orders';
 import Deliveryman from '../models/deliveryMan';
 import Recipient from '../models/recipient';
-import Notification from '../schemas/Notification';
+// import Notification from '../schemas/Notification';
+import Queue from '../../lib/Queue';
+import OrderMail from '../jobs/orderMail';
 
 class OrdersController {
   async store(req, res) {
@@ -47,11 +49,11 @@ class OrdersController {
       recipient_id,
     });
 
-    await Notification.create({
-      content: `Nova encomenda! Produto: ${product} pronto para retirada`,
-      user: deliveryman_id,
+    await Queue.add(OrderMail.key, {
+      name,
+      email,
+      product,
     });
-
     return res.json(order);
   }
 }
