@@ -9,7 +9,9 @@ import FileController from './app/controllers/FileController';
 import deliveryManController from './app/controllers/deliveryManController';
 import deliverController from './app/controllers/deliverController';
 import OrdersController from './app/controllers/ordersController';
+import FinalizeOrderController from './app/controllers/FinalizeOrderController';
 import authMiddleware from './app/middlewares/auth';
+import CancelController from './app/controllers/CancelController';
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -37,4 +39,9 @@ routes.post('/api/order', OrdersController.store);
 // deliver routes
 routes.get('/api/deliver/:id/orders', deliverController.index);
 routes.put('/api/deliver/:id/orders', deliverController.update);
+
+// Cancel order route
+
+routes.put('/api/order/cancel', CancelController.update);
+routes.put('/api/order/:order_id/finalize', FinalizeOrderController.update);
 export default routes;
