@@ -1,4 +1,4 @@
-import Orders from '../models/orders';
+import Orders from '../models/order';
 
 class CancelController {
   async update(req, res) {

@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import Orders from '../models/orders';
+import Orders from '../models/order';
 
 class FinalizeController {
   async update(req, res) {

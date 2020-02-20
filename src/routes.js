@@ -10,6 +10,7 @@ import deliveryManController from './app/controllers/deliveryManController';
 import deliverController from './app/controllers/deliverController';
 import OrdersController from './app/controllers/ordersController';
 import FinalizeOrderController from './app/controllers/FinalizeOrderController';
+import DeliverProblemsController from './app/controllers/DeliveryProblemsController';
 import authMiddleware from './app/middlewares/auth';
 import CancelController from './app/controllers/CancelController';
 
@@ -44,4 +45,7 @@ routes.put('/api/deliver/:id/orders', deliverController.update);
 
 routes.put('/api/order/cancel', CancelController.update);
 routes.put('/api/order/:order_id/finalize', FinalizeOrderController.update);
+
+// Delivery order problems route
+routes.post('/api/order/problems', DeliverProblemsController.store);
 export default routes;

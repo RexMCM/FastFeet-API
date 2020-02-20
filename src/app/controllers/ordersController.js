@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import orders from '../models/orders';
+import orders from '../models/order';
 import Deliveryman from '../models/deliveryMan';
 import Recipient from '../models/recipient';
 // import Notification from '../schemas/Notification';

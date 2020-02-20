@@ -2,7 +2,7 @@ import moment from 'moment';
 import { startOfDay, endOfDay } from 'date-fns';
 import { Op } from 'sequelize';
 import deliveryMan from '../models/deliveryMan';
-import Orders from '../models/orders';
+import Orders from '../models/order';
 import Recipient from '../models/recipient';
 
 class DeliverController {
