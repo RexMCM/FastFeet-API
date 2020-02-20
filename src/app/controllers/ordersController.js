@@ -4,7 +4,7 @@ import Deliveryman from '../models/deliveryMan';
 import Recipient from '../models/recipient';
 // import Notification from '../schemas/Notification';
 import Queue from '../../lib/Queue';
-import OrderMail from '../jobs/orderMail';
+import NewOrderMail from '../jobs/orderMail';
 
 class OrdersController {
   async store(req, res) {
@@ -19,29 +19,26 @@ class OrdersController {
     }
     const { deliveryman_id, recipient_id, product } = req.body;
 
-    const checkDeliverymanExists = await Deliveryman.findOne({
-      where: { id: deliveryman_id },
+    const deliveryman = await Deliveryman.findByPk(deliveryman_id, {
+      attributes: ['name', 'email'],
+    });
+    const recipient = await Recipient.findByPk(recipient_id, {
+      attributes: ['name', 'street', 'number', 'city', 'state'],
     });
 
-    const checkRecipientExists = await Recipient.findOne({
-      where: { id: recipient_id },
-    });
-
-    if (!(checkDeliverymanExists || checkRecipientExists)) {
+    if (!(deliveryman || recipient)) {
       return res
         .status(400)
         .json({ error: 'Deliveryman and Recipient does not exists' });
     }
 
-    if (!checkRecipientExists) {
+    if (!recipient) {
       return res.status(400).json({ error: 'Recipient does not exists' });
     }
 
-    if (!checkDeliverymanExists) {
+    if (!deliveryman) {
       return res.status(400).json({ error: 'Deliveryman does not exists' });
     }
-
-    const { name, email } = checkDeliverymanExists;
 
     const order = await orders.create({
       product,
@@ -49,10 +46,10 @@ class OrdersController {
       recipient_id,
     });
 
-    await Queue.add(OrderMail.key, {
-      name,
-      email,
-      product,
+    await Queue.add(NewOrderMail.key, {
+      deliveryman,
+      recipient,
+      order,
     });
     return res.json(order);
   }

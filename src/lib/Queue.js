@@ -1,8 +1,11 @@
 import Bee from 'bee-queue';
-import OrderMail from '../app/jobs/orderMail';
+
+import NewOrderMail from '../app/jobs/orderMail';
+import CancellationMail from '../app/jobs/CancellationMail';
+
 import redisConfig from '../config/redis';
 
-const jobs = [OrderMail];
+const jobs = [NewOrderMail, CancellationMail];
 
 class Queue {
   constructor() {
@@ -27,10 +30,16 @@ class Queue {
   }
 
   processQueue() {
+    console.log('processing queue');
+
     jobs.forEach(job => {
       const { bee, handle } = this.queues[job.key];
       bee.process(handle);
     });
+  }
+
+  handleFailure(job, err) {
+    console.log(`Queue ${job.queue.name}. Failure; `, err);
   }
 }
 

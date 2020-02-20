@@ -48,4 +48,8 @@ routes.put('/api/order/:order_id/finalize', FinalizeOrderController.update);
 
 // Delivery order problems route
 routes.post('/api/order/problems', DeliverProblemsController.store);
+routes.get('/api/order/problems', DeliverProblemsController.index);
+routes.get('/api/order/:id/problems', DeliverProblemsController.show);
+
+routes.delete('/api/order/problems/:id', DeliverProblemsController.delete);
 export default routes;
